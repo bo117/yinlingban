@@ -1,0 +1,8 @@
+﻿[1] image_setting: custom | gpt-image-2.5-flare | https://sub2.hhlai.xyz/v1/images/generations | configured: True
+[2] 瀹屾暣绔偣鍘熸牱浣跨敤: https://sub2.hhlai.xyz/v1/images/generations
+[3] base 褰㈠紡鑷姩琛ョ鐐? https://sub2.hhlai.xyz/v1/images/generations
+[4] openai 鐢熷浘 base_url: https://api.openai.com/v1
+[5] _resolve_test: https://sub2.hhlai.xyz/v1/images/generations | gpt-image-2.5-flare | key saved: True
+[6] 瀹炴祴鑱旈€? {'ok': True, 'message': '鉁?杩炴帴鎴愬姛锛佽嚜瀹氫箟锛圤penAI 鍏煎 /images/generations锛?妯″瀷銆実pt-image-2.5-flare銆嶅彲鐢紝鍙互鏀惧績鐢熷浘浜嗐€?, 'provider_id': 'custom', 'provider_name': '鑷畾涔夛紙OpenAI 鍏煎 /images/generations锛?, 'model': 'gpt-image-2.5-flare', 'base_url': 'https://sub2.hhlai.xyz/v1/images/generations'}
+[7] 鏈繚瀛樺厛娴嬶紙甯﹀湴鍧€锛? {'ok': True, 'message': '鉁?杩炴帴鎴愬姛锛佽嚜瀹氫箟锛圤penAI 鍏煎 /images/generations锛?妯″瀷銆実pt-image-2.5-flare銆嶅彲鐢紝鍙互鏀惧績鐢熷浘浜嗐€?, 'provider_id': 'custom', 'provider_name': '鑷畾涔夛紙OpenAI 鍏煎 /images/generations锛?, 'model': 'gpt-image-2.5-flare', 'base_url': 'https://sub2.hhlai.xyz/v1/images/generations'}
+ALL ASSERTIONS PASSED

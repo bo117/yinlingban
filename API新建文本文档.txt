@@ -1,0 +1,5 @@
+sk-2ed2242f4a44caefac4713961e9f5e185dd127967333ea0d060864b80921c788
+https://sub2.hhlai.xyzGPT6的AI API请求地址
+https://sub2.hhlai.xyz/v1/images/generationsGPT image 2.5 flace 生图 API 请求地址
+sk-f2eae162ea8a950be436046bed154a7fdba54024e7213d01ecc2bd8e161c1d83
+正常情况下，不要使用token烧得特别快,生图的话，速度很慢很慢，因为服务器在香港，要先把数据传到香港，再传到日本的中转站，最后再传到 OpenAI。此外，受中转站限制，不支持生成 4K 及 2K 图片，有一些可能会报错，很正常，因为它的 image 协议可能会报错，我也不确定我的 API 密钥是不是准确的

@@ -1,0 +1,92 @@
+
+──────────────────────────────────────────────────
+【1】跨域 CORS（前端最常踩的坑）
+──────────────────────────────────────────────────
+  ✓ OPTIONS 预检放行
+  ✓ 返回 Allow-Origin
+  ✓ 实际请求带跨域头
+
+──────────────────────────────────────────────────
+【2】用户与对话主链路
+──────────────────────────────────────────────────
+  ✓ 创建用户（skip_onboarding 跳过引导，方便前端先调通主链路）
+  ✓ 对话接口
+
+──────────────────────────────────────────────────
+【3】数字人驱动字段（前端拿来控制表情/动作/字幕）
+──────────────────────────────────────────────────
+  ✓ reply（字幕/TTS文本）
+  ✓ emotion（老人情绪）
+  ✓ expression（数字人表情）
+  ✓ action（数字人动作）
+  ✓ sources（知识来源，健康问答时非空）
+  ✓ tool_info（工具结果，服务类问题时非空）
+    示例 → 情绪:平静 表情:耐心 动作:倾听
+
+──────────────────────────────────────────────────
+【4】工具调用返回结构（前端做卡片展示用）
+──────────────────────────────────────────────────
+  ✓ 天气工具触发
+  ✓ 天气message（可直接播报）
+  ✓ 天气current（做天气卡片）
+  ✓ 天气daily（三天预报卡片）
+  ✓ 穿衣出行建议
+  ✓ 提醒工具触发
+  ✓ 提醒message（设置成功话术）
+  ✓ 提醒列表接口（前端提醒面板）
+  ✓ 社区信息接口（前端信息卡片）
+
+──────────────────────────────────────────────────
+【5】WebSocket 流式对话（前端核心对接）
+──────────────────────────────────────────────────
+  ✓ 握手成功（hello→connected）
+  ✓ 事件序列：session 先到
+  ✓ 表情先行（emotion 在 reply_delta 之前）
+  ✓ 流式片段（reply_delta）
+  ✓ 完成事件（reply_done）
+  ✓ 打断机制（interrupt 响应）
+
+──────────────────────────────────────────────────
+【7】WS 思考链与置信度（真实流水线阶段耗时）
+──────────────────────────────────────────────────
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\windows_events.py", line 463, in finish_socket_func
+    return ov.getresult()
+           ~~~~~~~~~~~~^^
+OSError: [WinError 64] 指定的网络名不再可用。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\proactor_events.py", line 286, in _loop_reading
+    length = fut.result()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\windows_events.py", line 807, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\windows_events.py", line 467, in finish_socket_func
+    raise ConnectionResetError(*exc.args)
+ConnectionResetError: [WinError 64] 指定的网络名不再可用。
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\yinlingban_env\backend\tests\前端联调体检.py", line 451, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Desktop\yinlingban_env\backend\tests\前端联调体检.py", line 155, in main
+    m = json.loads(await asyncio.wait_for(ws.recv(), timeout=30))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python314-nuget\tools\Lib\asyncio\tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\yinlingban_env\Lib\site-packages\websockets\asyncio\connection.py", line 317, in recv
+    raise self.protocol.close_exc from self.recv_exc
+websockets.exceptions.ConnectionClosedError: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout

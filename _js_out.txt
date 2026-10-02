@@ -1,0 +1,14 @@
+﻿script blocks: 1 | total chars: 70506
+python.exe : Traceback (most recent call last):
+所在位置 行:445 字符: 1
++ & "C:\Users\Administrator\Desktop\yinlingban_env\Scripts\python.exe"  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last) 
+   ::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\Administrator\Desktop\yinlingban_env\_check_js.py", line 23, i
+n <module>
+    assert 'id="img-meta"' not in canvas_seg, "img-meta 杩樺湪 canvas 閲岋紒"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: img-meta 杩樺湪 canvas 閲岋紒

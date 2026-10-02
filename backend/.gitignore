@@ -1,0 +1,14 @@
+# 敏感信息（不入仓库）
+.env
+data/desktop-profile/
+
+# 运行时数据
+*.db
+data/vector_store.json
+__pycache__/
+*.pyc
+
+# 开发工具
+.idea/
+.vscode/
+*.log

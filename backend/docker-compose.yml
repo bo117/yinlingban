@@ -1,0 +1,18 @@
+# ============================================================
+# 「银龄伴」Docker Compose 一键部署
+# 用法：在 backend/ 目录下执行
+#   docker compose up -d --build
+# 然后访问 http://localhost:8000/（联调测试页）/ http://localhost:8000/docs
+# ============================================================
+services:
+  backend:
+    build: .
+    container_name: yinlingban-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env          # 厂商 API Key 等配置（仓库不含此文件，见 .env.example）
+    volumes:
+      - ./yinlingban.db:/app/yinlingban.db        # 用户/会话/提醒数据持久化
+      - ./data:/app/data                          # 知识库/向量库/生成图片持久化
+    restart: unless-stopped

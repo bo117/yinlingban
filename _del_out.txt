@@ -1,0 +1,6 @@
+﻿[1] 鍋囨暟鎹氨缁?
+[2] 鍒犻櫎缁撴灉: {'success': True, 'deleted': 'test_del_me.png', 'file_deleted': True, 'removed_from_history': 1}
+[3] 閲嶅鍒犻櫎鎸?404 鎷掔粷: 鍥剧墖涓嶅瓨鍦ㄦ垨宸茶鍒犻櫎 | status: 404
+[4] 鐩綍绌胯秺鍏ㄩ儴鎸?400 鎷掔粷
+[5] 瀛ゅ効鏂囦欢鍒犻櫎: {'success': True, 'deleted': 'test_orphan.png', 'file_deleted': True, 'removed_from_history': 0}
+ALL DELETE TESTS PASSED

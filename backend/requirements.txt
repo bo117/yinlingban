@@ -1,0 +1,37 @@
+# ============================================================
+# 「银龄伴」后端依赖清单（版本已锁定，保证评审环境可复现）
+# 安装：Scripts\pip install -r requirements.txt
+# ============================================================
+
+# ---- 核心依赖（必装，纯 Python / 有预编译包，安装很快）----
+fastapi==0.141.1          # Web 框架
+uvicorn==0.52.4           # ASGI 服务器（含 WebSocket 支持）
+httpx==0.28.1             # 异步 HTTP 客户端（调用大模型/天气 API）
+python-dotenv==1.2.3      # 读取 .env 配置文件
+sqlalchemy==2.0.52        # ORM（默认 SQLite，免安装数据库）
+pydantic==2.13.4          # 数据校验（fastapi 0.141.1 配套）
+pydantic-core==2.46.4     # pydantic 编译内核
+python-multipart==0.0.32  # 文件上传支持（语音识别接口用）
+Pillow==12.3.0           # 便签照片校验、去元数据和缩放
+websockets==17.1          # WebSocket 客户端（自测脚本用）
+annotated-doc==0.0.5      # fastapi 依赖
+anyio==4.14.2             # fastapi/starlette 依赖
+click==8.5.0              # uvicorn 依赖
+h11==0.16.0               # httpcore 依赖
+httpcore==1.0.9           # httpx 依赖
+idna==3.19                # httpx 依赖
+certifi==2026.7.22        # httpx 证书
+typing-inspection==0.4.4  # pydantic 依赖
+typing_extensions==4.16.0 # pydantic/fastapi 依赖
+greenlet==3.5.5           # sqlalchemy 依赖
+
+# ---- 可选依赖（生产环境 / Docker 部署时再装，本地开发可不装）----
+# psycopg2-binary>=2.9.9   # PostgreSQL 驱动（DATABASE_URL 指向 PG 时需要）
+# redis>=5.0.0             # Redis 缓存（REDIS_URL 配置时需要）
+# pymilvus>=2.4.0          # Milvus 向量数据库（MILVUS_URI 配置时需要）
+
+# 说明：本项目做了"零依赖降级"设计——
+#   数据库：无 PostgreSQL 时自动用 SQLite
+#   缓存：  无 Redis 时自动用内存缓存
+#   向量库：无 Milvus 时自动用本地文件向量库
+#   大模型：无 API Key 时自动降级为本地内置回复引擎（演示不中断）

@@ -1,0 +1,32 @@
+{
+  "http_ready_s": 1.577,
+  "missing_api_rest_and_local_reminder": "passed",
+  "mcp_validation_and_isolation": "passed",
+  "browser": {
+    "first_screen_ms": 588,
+    "conversation": {
+      "context_menu_crud_search_pin": "passed",
+      "independent_drafts_history_restore": "passed",
+      "hidden_diagnostics": "passed",
+      "reasoning_slider": "passed",
+      "settings_close_at_180_percent": "passed",
+      "compact_task_navigation": "passed",
+      "unresponsive_watchdog_draft_retry": "passed",
+      "note_canvas_create_drag_search_zoom_reload": "passed"
+    },
+    "missing_api_websocket_settings_and_draft": "passed",
+    "disconnected_send_feedback": "passed",
+    "compact_buttons": "passed",
+    "typography": "passed",
+    "font_controls_persistence_limits_and_modes": "passed",
+    "compact_layout": "passed",
+    "image_selection_and_error_recovery": "passed",
+    "avatar_stream_and_interrupt": "passed",
+    "javascript_errors": [],
+    "external_startup_requests": []
+  },
+  "restart_ready_s": 1.583,
+  "memory_survives_process_restart": "passed",
+  "session_memory_survives_process_restart": "passed",
+  "canvas_survives_process_restart": "passed"
+}
