@@ -17,7 +17,7 @@ from app.db.models import CanvasBoard, User
 
 router = APIRouter(prefix="/api/users/{user_id}/canvas", tags=["便签画布"])
 IMAGE_NAME = re.compile(r"^[0-9a-f]{32}\.jpg$")
-MEDIA_DIR = Path(config._env("CANVAS_MEDIA_DIR", str(config.BASE_DIR / "data" / "canvas-media")))
+MEDIA_DIR = Path(config._env("CANVAS_MEDIA_DIR", str(config.DATA_DIR / "canvas-media")))
 
 
 def image_path(user_id: int, name: str) -> Path:

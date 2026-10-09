@@ -28,7 +28,7 @@ from app.core.参考图 import read_reference, MAX_IMAGE_BASE64
 logger = logging.getLogger("yinlingban.image")
 
 # 生成图片落盘目录与历史文件
-IMAGE_DIR = Path(config._env("GENERATED_IMAGE_DIR", str(config.BASE_DIR / "data" / "generated_images")))
+IMAGE_DIR = Path(config._env("GENERATED_IMAGE_DIR", str(config.DATA_DIR / "generated_images")))
 HISTORY_FILE = IMAGE_DIR / "history.json"
 HISTORY_MAX = 60
 

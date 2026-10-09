@@ -92,6 +92,23 @@ python backend\start.py --browser
 
 也可以直接双击 `启动银龄伴.pyw` 打开 Windows 桌面窗口。桌面端使用本地 WebView2，首次使用前请确认已安装 WebView2 Runtime。
 
+## Windows 安装版（推荐普通用户）
+
+无需安装 Python 或执行 pip 命令，可以直接下载当前安装包：
+
+- [下载 Yinlingban-Setup-1.0.0.exe](https://github.com/bo117/yinlingban/raw/main/release/Yinlingban-Setup-1.0.0.exe)
+
+安装程序会创建桌面快捷方式和开始菜单入口。安装完成后双击“银龄伴”即可启动；应用会在本机启动 FastAPI 服务和 WebView2 窗口，不会额外打开浏览器。
+
+首次使用建议：
+
+1. 确认 Windows 已安装 Microsoft Edge WebView2 Runtime。
+2. 打开“设置”，选择对话模型并填写 API Key。
+3. 如需语音通话，另外配置 TTS；如需后端语音识别，配置火山引擎 ASR。
+4. 如需真实 3D 数字人，还需要配置对应平台的应用凭据；未配置时会保留文字、浏览器语音和占位形象降级能力。
+
+安装版的用户数据保存在 `%LOCALAPPDATA%\Yinlingban`，包括数据库、配置、日志、向量索引、生成图片和 WebView2 缓存。卸载程序不会自动删除这份用户数据，便于重新安装后恢复历史记录；确认不再需要时可手动删除该目录。
+
 ## API 与前端接入
 
 后端同时提供 REST 和 WebSocket 接口。完整的请求字段、事件时序、情绪/动作映射和数字人接入示例，请阅读：
@@ -128,6 +145,37 @@ docker compose up -d --build
 ```
 
 然后访问 <http://localhost:8000/>。生产环境可按需配置 PostgreSQL、Redis 和 Milvus；不配置时会自动使用项目默认的 SQLite、内存缓存和本地向量存储。
+
+## Windows 安装包构建
+
+桌面版可以使用 PyInstaller + Inno Setup 构建为安装包。构建机需要安装 Python 3.11+、Inno Setup 6，并确保 WebView2 Runtime 可用：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r desktop-requirements.txt
+powershell -ExecutionPolicy Bypass -File packaging\build.ps1 -InstallDependencies -Installer
+```
+
+只生成可运行目录而不调用 Inno Setup：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File packaging\build.ps1
+```
+
+构建产物在 `dist\Yinlingban` 和 `release\Yinlingban-Setup-1.0.0.exe`。安装版的数据库、配置、日志、向量索引和 WebView2 用户数据会写入 `%LOCALAPPDATA%\Yinlingban`，不会写入安装目录。安装包不包含真实 API Key；用户首次启动后通过设置页面配置。
+
+发布说明：`backend/data/` 和运行时目录默认被 Git 忽略。正式发布前，如果需要内置健康知识、社区信息或示例图片，应在构建机准备这些公开资源，确认它们被 spec 文件复制到安装包后再发布。当前仓库中的 `release\Yinlingban-Setup-1.0.0.exe` 是经过 EXE smoke test 和 Inno Setup 编译验证的未签名安装包。
+
+### Windows 代码签名
+
+公开分发前需要购买或申请受信任的代码签名证书（OV/EV 或 Microsoft Trusted Signing），并在本机安装 Windows SDK 的 `signtool.exe`。不要把 `.pfx` 私钥或密码提交到仓库。构建完成后执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File packaging\sign.ps1 -CertificatePath C:\secure\yinlingban.pfx
+```
+
+脚本会签名 `dist\Yinlingban` 中的 PE 文件和 `release\Yinlingban-Setup-1.0.0.exe`，并使用时间戳服务验证签名。自签名证书只能用于内部测试，不能消除普通用户的 SmartScreen 警告。
 
 ## 协作开发约定
 

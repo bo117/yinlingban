@@ -12,14 +12,39 @@
 3. 任何情况下服务都能启动，演示永不中断
 """
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-# 后端项目根目录
-BASE_DIR = Path(__file__).resolve().parent.parent
+# 后端项目根目录。PyInstaller 会把代码放入临时/只读资源目录，
+# 因此运行时数据必须和应用资源分开保存。
+if getattr(sys, "frozen", False):
+    _RESOURCE_ROOT = Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+else:
+    _RESOURCE_ROOT = Path(__file__).resolve().parent.parent
+BASE_DIR = _RESOURCE_ROOT
+
+if os.getenv("YLB_DATA_DIR"):
+    DATA_DIR = Path(os.environ["YLB_DATA_DIR"]).expanduser()
+elif getattr(sys, "frozen", False):
+    DATA_DIR = Path(os.getenv("LOCALAPPDATA", Path.home() / "AppData" / "Local")) / "Yinlingban"
+else:
+    DATA_DIR = BASE_DIR / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+if os.getenv("YLB_CONFIG_DIR"):
+    CONFIG_DIR = Path(os.environ["YLB_CONFIG_DIR"]).expanduser()
+elif getattr(sys, "frozen", False):
+    CONFIG_DIR = DATA_DIR
+else:
+    CONFIG_DIR = BASE_DIR
+CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
 # 加载 .env 配置（不存在时使用默认值，不报错）
-load_dotenv(BASE_DIR / ".env")
+_env_path = CONFIG_DIR / ".env"
+if not _env_path.exists() and CONFIG_DIR != BASE_DIR:
+    _env_path = BASE_DIR / ".env"
+load_dotenv(_env_path)
 
 
 def _env(key: str, default: str = "") -> str:
@@ -62,9 +87,10 @@ EMBEDDING_MODEL = _env("EMBEDDING_MODEL", "BAAI/bge-m3")
 
 # ==================== 数据库配置 ====================
 # 默认 SQLite（零安装）；Docker 部署时改为 PostgreSQL 连接串
+_DEFAULT_DB_DIR = DATA_DIR if getattr(sys, "frozen", False) or os.getenv("YLB_DATA_DIR") else BASE_DIR
 DATABASE_URL = _env(
     "DATABASE_URL",
-    f"sqlite:///{BASE_DIR / 'yinlingban.db'}"
+    f"sqlite:///{_DEFAULT_DB_DIR / 'yinlingban.db'}"
 )
 
 
@@ -74,12 +100,17 @@ REDIS_URL = _env("REDIS_URL", "")          # 留空则使用进程内存缓存
 
 # ==================== 向量数据库配置 ====================
 MILVUS_URI = _env("MILVUS_URI", "")        # 如 http://localhost:19530，留空用本地文件向量库
-VECTOR_STORE_PATH = BASE_DIR / "data" / "vector_store.json"
+VECTOR_STORE_PATH = DATA_DIR / "vector_store.json"
 
 
 # ==================== 知识库配置 ====================
-KNOWLEDGE_DIR = BASE_DIR / "data" / "health_knowledge"   # 知识素材目录（角色3提供）
-COMMUNITY_INFO_PATH = BASE_DIR / "data" / "community_info.json"  # 社区信息库
+_BUNDLED_DATA_DIR = BASE_DIR / "data"
+_USER_KNOWLEDGE_DIR = DATA_DIR / "health_knowledge"
+KNOWLEDGE_DIR = (_USER_KNOWLEDGE_DIR if _USER_KNOWLEDGE_DIR.exists()
+                 else _BUNDLED_DATA_DIR / "health_knowledge")
+COMMUNITY_INFO_PATH = (DATA_DIR / "community_info.json"
+                       if (DATA_DIR / "community_info.json").exists()
+                       else _BUNDLED_DATA_DIR / "community_info.json")
 CHUNK_SIZE = int(_env("CHUNK_SIZE", "500"))               # 知识分段长度（字）
 CHUNK_OVERLAP = int(_env("CHUNK_OVERLAP", "50"))          # 分段重叠（字）
 RAG_TOP_K = int(_env("RAG_TOP_K", "3"))                   # 检索返回条数

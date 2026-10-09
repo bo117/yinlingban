@@ -17,6 +17,16 @@ sys.path.insert(0, str(ROOT / "Lib" / "site-packages"))
 sys.path.insert(0, str(ROOT / "backend"))
 
 
+def _data_dir() -> Path:
+    """Return the writable per-user directory used by the desktop shell."""
+    configured = os.environ.get("YLB_DATA_DIR")
+    if configured:
+        return Path(configured).expanduser()
+    if getattr(sys, "frozen", False):
+        return Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData" / "Local")) / "Yinlingban"
+    return ROOT / "backend" / "data"
+
+
 def _ensure_webview_runtime():
     """Hand off to the system Python when Windows used the project venv for .pyw."""
     try:
@@ -49,7 +59,7 @@ def main():
     _ensure_webview_runtime()
     # pythonw has no console streams; uvicorn's logging formatter still needs them.
     if sys.stdout is None or sys.stderr is None:
-        log_dir = ROOT / "backend" / "data"
+        log_dir = _data_dir()
         log_dir.mkdir(parents=True, exist_ok=True)
         log = open(log_dir / "desktop.log", "a", encoding="utf-8", buffering=1)
         if sys.stdout is None:
@@ -150,7 +160,7 @@ def main():
     window.events.before_load += install_downloads
     window.events.loaded += on_loaded
     window.events.closed += on_closed
-    profile = ROOT / "backend" / "data" / "desktop-profile"
+    profile = _data_dir() / "desktop-profile"
     profile.mkdir(parents=True, exist_ok=True)
     try:
         webview.start(show_app, gui="edgechromium", private_mode=False, storage_path=str(profile))

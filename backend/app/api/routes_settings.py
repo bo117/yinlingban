@@ -77,7 +77,7 @@ class SettingsTest(BaseModel):
 def _write_env(pairs: dict, path=None) -> None:
     """把键值写进 .env（已有则替换、没有则追加；保留注释与顺序；path 可注入便于单测）"""
     from pathlib import Path as _Path
-    path = _Path(path) if path else (config.BASE_DIR / ".env")
+    path = _Path(path) if path else (config.CONFIG_DIR / ".env")
     text = path.read_text(encoding="utf-8") if path.exists() else ""
     lines = text.splitlines(keepends=True)
     # 历史坑：文件末尾若无换行符，追加的键会粘到最后一行（曾把 TTS_PROVIDER_ID

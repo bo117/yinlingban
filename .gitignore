@@ -3,6 +3,11 @@ Lib/
 Scripts/
 Include/
 pyvenv.cfg
+.venv/
+build/
+dist/
+release/
+# The published installer is force-added explicitly when a release is ready.
 __pycache__/
 *.py[cod]
 
