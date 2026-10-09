@@ -96,7 +96,7 @@ python backend\start.py --browser
 
 无需安装 Python 或执行 pip 命令，可以直接下载当前安装包：
 
-- [下载 Yinlingban-Setup-1.0.0.exe](https://github.com/bo117/yinlingban/raw/main/release/Yinlingban-Setup-1.0.0.exe)
+- [下载 Yinlingban-Setup-1.0.0.exe](https://github.com/bo117/yinlingban/releases/download/v1.0.0/Yinlingban-Setup-1.0.0.exe)
 
 安装程序会创建桌面快捷方式和开始菜单入口。安装完成后双击“银龄伴”即可启动；应用会在本机启动 FastAPI 服务和 WebView2 窗口，不会额外打开浏览器。
 
